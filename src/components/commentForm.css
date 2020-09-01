@@ -1,0 +1,22 @@
+.comment-input {
+  display: flex;
+}
+
+.comment-input textarea {
+  flex: 1;
+  border-style: solid;
+  border-color: #d8d8d8;
+  padding: 0.2em 1em;
+  height: 80px;
+  resize: none;
+}
+
+.comment-input button {
+  font-family: "Montserrat, sans-serif";
+  font-weight: bold;
+  background-color: orange;
+  border: none;
+  margin-left: 10px;
+  width: 100px;
+  height: 80px;
+}
