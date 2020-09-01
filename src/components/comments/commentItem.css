@@ -1,6 +1,9 @@
 .comment-item {
+  margin: 16px 0 0 16px;
+}
+
+.comment-content {
   display: flex;
-  margin: 0 0 0 16px;
 }
 
 .comment-icon {
@@ -10,7 +13,6 @@
 
 .comment {
   flex: 1;
-  margin-bottom: 20px;
 }
 
 .comment .header {
@@ -52,4 +54,8 @@
   width: 16px;
   height: 16px;
   margin-right: 4px;
+}
+
+.replies {
+  padding-left: 10px;
 }
