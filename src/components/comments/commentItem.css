@@ -7,8 +7,12 @@
 }
 
 .comment-icon {
-  width: 32px;
+  width: 48px;
   margin-right: 16px;
+}
+
+.comment-icon img {
+  border-radius: 50%;
 }
 
 .comment {

@@ -5,18 +5,21 @@ import CommentForm from "./commentForm"
 
 import "./commentItem.css"
 
-const CommentItem = ({ comment }) => {
-  const { user, icon, content, datetime, replies } = comment
+const CommentItem = ({ comment, users }) => {
+  const { userId, content, datetime, replies } = comment
+  const user = users.find(u => {
+    return u.id === userId
+  })
   const [showReplyForm, setShowReplyForm] = useState(false)
   return (
     <div className="comment-item">
       <div className="comment-content">
         <div className="comment-icon">
-          <img src={icon} alt="icon" />
+          <img src={user.picture} alt="icon" />
         </div>
         <div className="comment">
           <div className="header">
-            <span className="comment-user">{user}</span>
+            <span className="comment-user">{user.name}</span>
             <time dateTime={datetime}>
               {Intl.DateTimeFormat("en-US", {
                 year: "numeric",
@@ -58,11 +61,11 @@ const CommentItem = ({ comment }) => {
       </div>
       {showReplyForm && <CommentForm />}
       <div className="replies">
-        <span>
-          {replies?.map(comment => {
-            return <CommentItem comment={comment} key={comment.id} />
-          })}
-        </span>
+        {replies?.map(comment => {
+          return (
+            <CommentItem comment={comment} users={users} key={comment.id} />
+          )
+        })}
       </div>
     </div>
   )
