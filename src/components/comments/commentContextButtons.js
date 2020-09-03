@@ -4,7 +4,10 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
   const { isAuthenticated, user } = useAuth0()
-  const { sub } = user
+  let sub = null
+  if (user) {
+    sub = user.sub
+  }
   return (
     isAuthenticated && (
       <div className="context-buttons">
@@ -24,12 +27,15 @@ const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
             Edit
           </button>
         )}
-        {sub === userId /* || isManager() */ && (
-          <button className="comment-button">
-            <MdDelete />
-            Delete
-          </button>
-        )}
+        {
+          /* prettier-ignore */
+          (sub === userId /* || isManager() */) && (
+            <button className="comment-button">
+              <MdDelete />
+              Delete
+            </button>
+          )
+        }
       </div>
     )
   )
