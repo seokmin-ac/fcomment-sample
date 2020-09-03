@@ -18,7 +18,7 @@ const CommentItem = ({ comment, users }) => {
           <img src={currentUser.picture} alt="icon" />
         </div>
         <div className="comment">
-          <div className="header">
+          <div className="header sans-serif">
             <span className="comment-user">{currentUser.name}</span>
             <time dateTime={datetime}>
               {Intl.DateTimeFormat("en-US", {

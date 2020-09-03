@@ -13,7 +13,6 @@
 }
 
 .comment-form button {
-  font-family: "Montserrat, sans-serif";
   font-weight: bold;
   background-color: orange;
   border: none;
@@ -24,7 +23,6 @@
 }
 
 .comment-login {
-  font-family: "Montserrat, sans-serif";
   text-align: center;
   height: 80px;
   margin-top: 10px;
@@ -44,6 +42,7 @@
 
 .comment-login button:hover {
   background-color: #ffba81;
+  color: gray;
 }
 
 .comment-form-user {
@@ -58,7 +57,6 @@
 }
 
 .user-dropdown {
-  font-family: "Montserrat, sans-serif";
   display: block;
   position: absolute;
   bottom: 100%;

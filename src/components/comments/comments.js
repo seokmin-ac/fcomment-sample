@@ -46,7 +46,7 @@ const Comments = () => {
   }
   return (
     <div className="comments">
-      <div className="title monospace">
+      <div className="title sans-serif">
         {dummyComments.count} Comment{dummyComments.count !== 1 ? "s" : ""}
       </div>
       <hr />

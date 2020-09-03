@@ -9,7 +9,7 @@ const CommentForm = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="comment-login">
+      <div className="comment-login sans-serif">
         <div>Sign in to comment</div>
         <button onClick={loginWithRedirect}>Sign in</button>
       </div>
@@ -30,7 +30,9 @@ const CommentForm = () => {
           }}
         />
         <div
-          className={showUserMenu ? "user-dropdown" : "user-dropdown-disabled"}
+          className={
+            showUserMenu ? "user-dropdown sans-serif" : "user-dropdown-disabled"
+          }
         >
           <div className="nickname">{nickname}</div>
           <hr />
@@ -48,6 +50,7 @@ const CommentForm = () => {
       </div>
       <textarea placeholder="Input your comment here" />
       <button
+        className="sans-serif"
         onClick={e => {
           e.preventDefault()
         }}

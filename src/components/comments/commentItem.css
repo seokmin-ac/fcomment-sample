@@ -19,10 +19,6 @@
   flex: 1;
 }
 
-.comment .header {
-  font-family: "Montserrat, sans-serif";
-}
-
 .comment-user {
   font-size: 1.1rem;
   font-weight: bold;
@@ -32,32 +28,6 @@
   margin-left: 10px;
   color: gray;
   font-size: 0.9rem;
-}
-
-.comment .context-buttons {
-  font-family: "Montserrat, sans-serif";
-}
-
-.comment-button {
-  color: gray;
-  font-size: 0.9rem;
-  margin-right: 20px;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  background: none;
-}
-
-.comment-button:hover {
-  color: lightsalmon;
-}
-
-.comment-button svg {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
 }
 
 .replies {

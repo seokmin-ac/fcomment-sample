@@ -2,6 +2,8 @@ import React from "react"
 import { MdReply, MdDelete, MdEdit } from "react-icons/md"
 import { useAuth0 } from "@auth0/auth0-react"
 
+import "./commentContextButtons.css"
+
 const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
   const { isAuthenticated, user } = useAuth0()
   let sub = null
@@ -10,7 +12,7 @@ const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
   }
   return (
     isAuthenticated && (
-      <div className="context-buttons">
+      <div className="context-buttons sans-serif">
         <button
           className="comment-button"
           onClick={e => {
