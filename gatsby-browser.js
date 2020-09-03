@@ -19,6 +19,7 @@ export const wrapRootElement = ({ element }) => {
       scope="read:users"
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
     >
       {element}
     </Auth0Provider>

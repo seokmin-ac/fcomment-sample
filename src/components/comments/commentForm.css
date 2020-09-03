@@ -1,9 +1,9 @@
-.comment-input {
+.comment-form {
   display: flex;
-  margin: 10px 0 0 0;
+  margin-top: 10px;
 }
 
-.comment-input textarea {
+.comment-form textarea {
   flex: 1;
   border-style: solid;
   border-color: #d8d8d8;
@@ -12,7 +12,7 @@
   resize: none;
 }
 
-.comment-input button {
+.comment-form button {
   font-family: "Montserrat, sans-serif";
   font-weight: bold;
   background-color: orange;
@@ -21,4 +21,79 @@
   margin-left: 10px;
   width: 100px;
   height: 80px;
+}
+
+.comment-login {
+  font-family: "Montserrat, sans-serif";
+  text-align: center;
+  height: 80px;
+  margin-top: 10px;
+}
+
+.comment-login div {
+  font-size: 1.2rem;
+}
+
+.comment-login button {
+  font-weight: bold;
+  background-color: orange;
+  border: none;
+  border-radius: 5px;
+  padding: 3px 15px;
+}
+
+.comment-login button:hover {
+  background-color: #ffba81;
+}
+
+.comment-form-user {
+  width: 48px;
+  margin-right: 16px;
+  position: relative;
+}
+
+.comment-form-user img {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.user-dropdown {
+  font-family: "Montserrat, sans-serif";
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  background-color: white;
+  border-radius: 5px;
+  border-color: lightgray;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 1em;
+  padding: 0.5em 1.5em 1.5em 1.5em;
+  max-width: 15em;
+  min-width: 12em;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+.user-dropdown .nickname {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.user-dropdown hr {
+  margin-bottom: 0.5rem;
+}
+
+.user-dropdown .logout {
+  cursor: pointer;
+  color: #007acc;
+  text-decoration: underline;
+}
+
+.user-dropdown .logout:hover {
+  color: lightsalmon;
+}
+
+.user-dropdown-disabled {
+  display: none;
 }

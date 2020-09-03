@@ -1,5 +1,4 @@
 import React from "react"
-import { useAuth0 } from "@auth0/auth0-react"
 
 import CommentForm from "./commentForm"
 import CommentItem from "./commentItem"
@@ -45,7 +44,6 @@ const Comments = () => {
       },
     ],
   }
-  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0()
   return (
     <div className="comments">
       <div className="title monospace">
@@ -63,16 +61,7 @@ const Comments = () => {
           )
         })}
       </div>
-      {isAuthenticated ? (
-        <CommentForm />
-      ) : (
-        <div>
-          <div>Log in to comment</div>
-          <div>
-            <button>Login</button>
-          </div>
-        </div>
-      )}
+      <CommentForm />
     </div>
   )
 }
