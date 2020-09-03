@@ -43,6 +43,7 @@
 .comment-login button:hover {
   background-color: #ffba81;
   color: gray;
+  cursor: pointer;
 }
 
 .comment-form-user {
