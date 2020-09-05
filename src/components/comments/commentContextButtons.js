@@ -4,11 +4,11 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 import "./commentContextButtons.css"
 
-const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
-  const { isAuthenticated, user } = useAuth0()
+const CommentContextButtons = ({ showReplyForm, setShowReplyForm, user }) => {
+  const { isAuthenticated, user: authUser } = useAuth0()
   let sub = null
-  if (user) {
-    sub = user.sub
+  if (authUser) {
+    sub = authUser.sub
   }
   return (
     isAuthenticated && (
@@ -23,7 +23,7 @@ const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
           <MdReply />
           Reply
         </button>
-        {sub === userId && (
+        {sub === user && (
           <button className="comment-button">
             <MdEdit />
             Edit
@@ -31,7 +31,7 @@ const CommentContextButtons = ({ showReplyForm, setShowReplyForm, userId }) => {
         )}
         {
           /* prettier-ignore */
-          (sub === userId /* || isManager() */) && (
+          (sub === user /* || isManager() */) && (
             <button className="comment-button">
               <MdDelete />
               Delete

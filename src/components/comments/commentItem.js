@@ -5,11 +5,14 @@ import CommentContextButtons from "./commentContextButtons"
 
 import "./commentItem.css"
 
-const CommentItem = ({ comment, users }) => {
-  const { userId, content, datetime, replies } = comment
+const CommentItem = ({ comment, users, id }) => {
+  const { user, content, datetime, replies } = comment
   const currentUser = users.find(u => {
-    return u.id === userId
-  })
+    return u.id === user
+  }) ?? {
+    name: "unknown",
+    picture: "",
+  }
   const [showReplyForm, setShowReplyForm] = useState(false)
   return (
     <div className="comment-item">
@@ -35,11 +38,11 @@ const CommentItem = ({ comment, users }) => {
           <CommentContextButtons
             showReplyForm={showReplyForm}
             setShowReplyForm={setShowReplyForm}
-            userId={userId}
+            user={user}
           />
         </div>
       </div>
-      {showReplyForm && <CommentForm />}
+      {showReplyForm && <CommentForm id={id} />}
       <div className="replies">
         {replies?.map(comment => {
           return (

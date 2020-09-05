@@ -3,9 +3,38 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 import "./commentForm.css"
 
-const CommentForm = () => {
+const CommentForm = ({ parent }) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
-  const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0()
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    user,
+    logout,
+    getAccessTokenSilently,
+  } = useAuth0()
+  const [commentContent, setCommentContent] = useState("")
+
+  const postComment = e => {
+    e.preventDefault()
+    getAccessTokenSilently()
+      .then(token => {
+        const endpoint = parent
+          ? `comments/${parent}`
+          : `articles${window.location.pathname}comments`
+        return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: commentContent,
+          }),
+        })
+      })
+      .then(response => response.json())
+      .then(response => console.log(response.id))
+  }
 
   if (!isAuthenticated) {
     return (
@@ -48,13 +77,11 @@ const CommentForm = () => {
           </div>
         </div>
       </div>
-      <textarea placeholder="Input your comment here" />
-      <button
-        className="sans-serif"
-        onClick={e => {
-          e.preventDefault()
-        }}
-      >
+      <textarea
+        placeholder="Input your comment here"
+        onChange={e => setCommentContent(e.target.value)}
+      />
+      <button className="sans-serif" onClick={postComment}>
         Post
       </button>
     </form>
