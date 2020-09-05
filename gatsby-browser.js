@@ -13,9 +13,9 @@ const onRedirectCallback = appState => navigate(appState?.returnTo || "/")
 export const wrapRootElement = ({ element }) => {
   return (
     <Auth0Provider
-      domain={process.env.AUTH_DOMAIN}
-      clientId={process.env.AUTH_CLIENT_ID}
-      audience={process.env.AUTH_AUDIENCE}
+      domain={process.env.GATSBY_DOMAIN}
+      clientId={process.env.GATSBY_CLIENT_ID}
+      audience={process.env.GATSBY_AUDIENCE}
       scope="read:users"
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}

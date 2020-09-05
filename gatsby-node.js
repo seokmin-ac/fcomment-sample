@@ -1,4 +1,5 @@
 const path = require(`path`)
+const request = require("request")
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = async ({ graphql, actions }) => {
@@ -46,6 +47,41 @@ exports.createPages = async ({ graphql, actions }) => {
         previous,
         next,
       },
+    })
+  })
+
+  var options = {
+    method: "POST",
+    url: `https://${process.env.GATSBY_DOMAIN}/oauth/token`,
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    form: {
+      grant_type: "client_credentials",
+      client_id: process.env.GATSBY_API_ID,
+      client_secret: process.env.GATSBY_API_SECRET,
+      audience: process.env.GATSBY_AUDIENCE,
+    },
+  }
+
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error)
+
+    posts.forEach(post => {
+      console.log(post.node.fields.slug.replace(/^\/([\w-]+)\/$/, "$1"))
+      let options = {
+        method: "POST",
+        url: `${process.env.GATSBY_API_DOMAIN}/articles`,
+        headers: {
+          Authorization: `Bearer ${JSON.parse(body).access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: post.node.fields.slug.replace(/^\/([\w-]+)\/$/, "$1"),
+        }),
+      }
+      request(options, (error, response) => {
+        if (error) throw new Error(error)
+        console.log(response.body)
+      })
     })
   })
 }
