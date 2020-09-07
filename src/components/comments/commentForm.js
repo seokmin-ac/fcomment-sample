@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 import "./commentForm.css"
 
-const CommentForm = ({ parent }) => {
+const CommentForm = ({ id }) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const {
     isAuthenticated,
@@ -16,10 +16,13 @@ const CommentForm = ({ parent }) => {
 
   const postComment = e => {
     e.preventDefault()
+    if (commentContent === "") {
+      return
+    }
     getAccessTokenSilently()
       .then(token => {
-        const endpoint = parent
-          ? `comments/${parent}`
+        const endpoint = id
+          ? `comments/${id}`
           : `articles${window.location.pathname}comments`
         return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
           method: "POST",

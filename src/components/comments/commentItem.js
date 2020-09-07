@@ -31,6 +31,7 @@ const CommentItem = ({ comment, users, id }) => {
                 hour: "numeric",
                 minute: "numeric",
                 second: "numeric",
+                hourCycle: "h23",
               }).format(new Date(datetime))}
             </time>
           </div>
@@ -46,7 +47,12 @@ const CommentItem = ({ comment, users, id }) => {
       <div className="replies">
         {replies?.map(comment => {
           return (
-            <CommentItem comment={comment} users={users} key={comment.id} />
+            <CommentItem
+              comment={comment}
+              users={users}
+              id={comment.id}
+              key={comment.id}
+            />
           )
         })}
       </div>
