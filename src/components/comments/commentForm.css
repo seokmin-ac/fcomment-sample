@@ -1,10 +1,16 @@
 .comment-form {
   display: flex;
   margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.comment-form .text-wrapper {
+  flex: 1;
 }
 
 .comment-form textarea {
-  flex: 1;
+  width: 100%;
+  display: block;
   border-style: solid;
   border-color: #d8d8d8;
   padding: 0.2em 1em;
@@ -12,7 +18,7 @@
   resize: none;
 }
 
-.comment-form button {
+.comment-form .post {
   font-weight: bold;
   background-color: orange;
   border: none;
@@ -20,6 +26,11 @@
   margin-left: 10px;
   width: 100px;
   height: 80px;
+}
+
+.comment-form .cancel {
+  float: right;
+  margin: 0;
 }
 
 .comment-login {

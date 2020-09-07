@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useAuth0 } from "@auth0/auth0-react"
+import { MdCancel } from "react-icons/md"
 
 import "./commentForm.css"
 
-const CommentForm = ({ id }) => {
+const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const {
     isAuthenticated,
@@ -12,31 +13,33 @@ const CommentForm = ({ id }) => {
     logout,
     getAccessTokenSilently,
   } = useAuth0()
-  const [commentContent, setCommentContent] = useState("")
+  const [commentContent, setCommentContent] = useState(content)
+  const textArea = useRef()
+  useEffect(_ => {
+    if (textArea.current) {
+      textArea.current.value = commentContent
+    }
+  })
 
-  const postComment = e => {
-    e.preventDefault()
+  const fetchComment = _ => {
     if (commentContent === "") {
       return
     }
-    getAccessTokenSilently()
-      .then(token => {
-        const endpoint = id
-          ? `comments/${id}`
-          : `articles${window.location.pathname}comments`
-        return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: commentContent,
-          }),
-        })
+    getAccessTokenSilently().then(token => {
+      const endpoint = id
+        ? `comments/${id}`
+        : `articles${window.location.pathname}comments`
+      return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: commentContent,
+        }),
       })
-      .then(response => response.json())
-      .then(response => console.log(response.id))
+    })
   }
 
   if (!isAuthenticated) {
@@ -80,11 +83,28 @@ const CommentForm = ({ id }) => {
           </div>
         </div>
       </div>
-      <textarea
-        placeholder="Input your comment here"
-        onChange={e => setCommentContent(e.target.value)}
-      />
-      <button className="sans-serif" onClick={postComment}>
+      <div className="text-wrapper">
+        <textarea
+          placeholder="Input your comment here"
+          onChange={e => setCommentContent(e.target.value)}
+          ref={textArea}
+        />
+        {cancelCallback && (
+          <button
+            className="comment-button cancel sans-serif"
+            onClick={cancelCallback}
+          >
+            <MdCancel /> Cancel
+          </button>
+        )}
+      </div>
+      <button
+        className="post sans-serif"
+        onClick={e => {
+          e.preventDefault()
+          fetchComment()
+        }}
+      >
         Post
       </button>
     </form>

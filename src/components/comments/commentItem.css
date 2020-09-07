@@ -1,5 +1,5 @@
 .comment-item {
-  margin: 16px 0 0 16px;
+  margin: 16px;
 }
 
 .comment-content {
@@ -8,6 +8,7 @@
 
 .comment-icon {
   width: 48px;
+  height: 48px;
   margin-right: 16px;
 }
 

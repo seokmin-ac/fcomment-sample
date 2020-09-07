@@ -14,35 +14,48 @@ const CommentItem = ({ comment, users, id }) => {
     picture: "",
   }
   const [showReplyForm, setShowReplyForm] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+
   return (
     <div className="comment-item">
-      <div className="comment-content">
-        <div className="comment-icon">
-          <img src={currentUser.picture} alt="icon" />
-        </div>
-        <div className="comment">
-          <div className="header sans-serif">
-            <span className="comment-user">{currentUser.name}</span>
-            <time dateTime={datetime}>
-              {Intl.DateTimeFormat("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-                hourCycle: "h23",
-              }).format(new Date(datetime))}
-            </time>
-          </div>
-          <div>{content}</div>
-          <CommentContextButtons
-            showReplyForm={showReplyForm}
-            setShowReplyForm={setShowReplyForm}
-            user={user}
+      {isEditing ? (
+        <>
+          <CommentForm
+            id={id}
+            cancelCallback={_ => setIsEditing(false)}
+            method="PATCH"
+            content={content}
           />
+        </>
+      ) : (
+        <div className="comment-content">
+          <div className="comment-icon">
+            <img src={currentUser.picture} alt="icon" />
+          </div>
+          <div className="comment">
+            <div className="header sans-serif">
+              <span className="comment-user">{currentUser.name}</span>
+              <time dateTime={datetime}>
+                {Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                  hourCycle: "h23",
+                }).format(new Date(datetime))}
+              </time>
+            </div>
+            <div>{content}</div>
+            <CommentContextButtons
+              toggleReplyForm={_ => setShowReplyForm(!showReplyForm)}
+              setIsEditing={_ => setIsEditing(true)}
+              user={user}
+            />
+          </div>
         </div>
-      </div>
+      )}
       {showReplyForm && <CommentForm id={id} />}
       <div className="replies">
         {replies?.map(comment => {

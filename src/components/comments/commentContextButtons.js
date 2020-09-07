@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 import "./commentContextButtons.css"
 
-const CommentContextButtons = ({ showReplyForm, setShowReplyForm, user }) => {
+const CommentContextButtons = ({ toggleReplyForm, setIsEditing, user }) => {
   const { isAuthenticated, user: authUser } = useAuth0()
   let sub = null
   if (authUser) {
@@ -17,14 +17,20 @@ const CommentContextButtons = ({ showReplyForm, setShowReplyForm, user }) => {
           className="comment-button"
           onClick={e => {
             e.preventDefault()
-            setShowReplyForm(!showReplyForm)
+            toggleReplyForm()
           }}
         >
           <MdReply />
           Reply
         </button>
         {sub === user && (
-          <button className="comment-button">
+          <button
+            className="comment-button"
+            onClick={e => {
+              e.preventDefault()
+              setIsEditing()
+            }}
+          >
             <MdEdit />
             Edit
           </button>
