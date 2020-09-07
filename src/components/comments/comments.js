@@ -14,12 +14,8 @@ const Comments = () => {
       }
     )
       .then(response => response.json())
-      .then(body => {
-        console.log(body)
-        setResponse(body)
-      })
+      .then(body => setResponse(body))
   }, [])
-  console.log(response)
 
   const dummyUsers = [
     {
