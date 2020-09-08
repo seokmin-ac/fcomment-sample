@@ -42,11 +42,17 @@ const CommentItem = ({ comment, users, id }) => {
       ) : (
         <div className="comment-content">
           <div className="comment-icon">
-            <img src={currentUser.picture} alt="icon" />
+            {comment.removed ? (
+              <div className="removed-icon" />
+            ) : (
+              <img src={currentUser.picture} alt="icon" />
+            )}
           </div>
-          <div className="comment">
+          <div className={`comment${comment.removed ? " removed" : ""}`}>
             <div className="header sans-serif">
-              <span className="comment-user">{currentUser.name}</span>
+              <span className="comment-user">
+                {comment.removed ? "" : currentUser.name}
+              </span>
               <time dateTime={datetime}>
                 {Intl.DateTimeFormat("en-US", {
                   year: "numeric",
@@ -59,13 +65,17 @@ const CommentItem = ({ comment, users, id }) => {
                 }).format(new Date(datetime))}
               </time>
             </div>
-            <div>{content}</div>
-            <CommentContextButtons
-              toggleReplyForm={_ => setShowReplyForm(!showReplyForm)}
-              setIsEditing={_ => setIsEditing(true)}
-              fetchDelete={fetchDelete}
-              user={user}
-            />
+            <div className="comment-text">
+              {comment.removed ? "Removed comment" : content}
+            </div>
+            {!comment.removed && (
+              <CommentContextButtons
+                toggleReplyForm={_ => setShowReplyForm(!showReplyForm)}
+                setIsEditing={_ => setIsEditing(true)}
+                fetchDelete={fetchDelete}
+                user={user}
+              />
+            )}
           </div>
         </div>
       )}

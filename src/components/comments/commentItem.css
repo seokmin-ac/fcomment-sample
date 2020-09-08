@@ -12,12 +12,23 @@
   margin-right: 16px;
 }
 
+.comment-icon .removed-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: silver;
+}
+
 .comment-icon img {
   border-radius: 50%;
 }
 
 .comment {
   flex: 1;
+}
+
+.comment.removed {
+  color: gray;
 }
 
 .comment-user {
@@ -29,6 +40,10 @@
   margin-left: 10px;
   color: gray;
   font-size: 0.9rem;
+}
+
+.comment.removed .comment-text {
+  text-decoration: line-through;
 }
 
 .replies {
