@@ -2,17 +2,14 @@ import React, { useState, useEffect, useRef } from "react"
 import { useAuth0 } from "@auth0/auth0-react"
 import { MdCancel } from "react-icons/md"
 
+import { useCommentAuth } from "./commentAuthContext"
+
 import "./commentForm.css"
 
 const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-    user,
-    logout,
-    getAccessTokenSilently,
-  } = useAuth0()
+  const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0()
+  const { token } = useCommentAuth()
   const [commentContent, setCommentContent] = useState(content)
   const textArea = useRef()
   useEffect(_ => {
@@ -25,20 +22,18 @@ const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
     if (commentContent === "") {
       return
     }
-    getAccessTokenSilently().then(token => {
-      const endpoint = id
-        ? `comments/${id}`
-        : `articles${window.location.pathname}comments`
-      return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
-        method: method,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: commentContent,
-        }),
-      })
+    const endpoint = id
+      ? `comments/${id}`
+      : `articles${window.location.pathname}comments`
+    return fetch(`${process.env.GATSBY_API_DOMAIN}/${endpoint}`, {
+      method: method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: commentContent,
+      }),
     })
   }
 

@@ -2,10 +2,18 @@ import React from "react"
 import { MdReply, MdDelete, MdEdit } from "react-icons/md"
 import { useAuth0 } from "@auth0/auth0-react"
 
+import { useCommentAuth } from "./commentAuthContext"
+
 import "./commentContextButtons.css"
 
-const CommentContextButtons = ({ toggleReplyForm, setIsEditing, user }) => {
+const CommentContextButtons = ({
+  toggleReplyForm,
+  setIsEditing,
+  fetchDelete,
+  user,
+}) => {
   const { isAuthenticated, user: authUser } = useAuth0()
+  const { permissions } = useCommentAuth()
   let sub = null
   if (authUser) {
     sub = authUser.sub
@@ -35,15 +43,18 @@ const CommentContextButtons = ({ toggleReplyForm, setIsEditing, user }) => {
             Edit
           </button>
         )}
-        {
-          /* prettier-ignore */
-          (sub === user /* || isManager() */) && (
-            <button className="comment-button">
-              <MdDelete />
-              Delete
-            </button>
-          )
-        }
+        {(sub === user || permissions.includes("delete:comments")) && (
+          <button
+            className="comment-button"
+            onClick={e => {
+              e.preventDefault()
+              fetchDelete()
+            }}
+          >
+            <MdDelete />
+            Delete
+          </button>
+        )}
       </div>
     )
   )

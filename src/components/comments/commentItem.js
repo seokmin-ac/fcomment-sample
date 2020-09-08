@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 
+import { useCommentAuth } from "./commentAuthContext"
 import CommentForm from "./commentForm"
 import CommentContextButtons from "./commentContextButtons"
 
@@ -15,6 +16,17 @@ const CommentItem = ({ comment, users, id }) => {
   }
   const [showReplyForm, setShowReplyForm] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const { token } = useCommentAuth()
+
+  const fetchDelete = _ => {
+    return fetch(`${process.env.GATSBY_API_DOMAIN}/comments/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+  }
 
   return (
     <div className="comment-item">
@@ -51,6 +63,7 @@ const CommentItem = ({ comment, users, id }) => {
             <CommentContextButtons
               toggleReplyForm={_ => setShowReplyForm(!showReplyForm)}
               setIsEditing={_ => setIsEditing(true)}
+              fetchDelete={fetchDelete}
               user={user}
             />
           </div>

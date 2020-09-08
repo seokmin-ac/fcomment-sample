@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+import { CommentAuthProvider } from "./commentAuthContext"
 import CommentForm from "./commentForm"
 import CommentItem from "./commentItem"
 import "./comments.css"
@@ -32,25 +33,27 @@ const Comments = () => {
     },
   ]
   return (
-    <div className="comments">
-      <div className="title sans-serif">
-        {response.count} Comment{response.count !== 1 ? "s" : ""}
+    <CommentAuthProvider>
+      <div className="comments">
+        <div className="title sans-serif">
+          {response.count} Comment{response.count !== 1 ? "s" : ""}
+        </div>
+        <hr />
+        <div>
+          {response.comments.map(comment => {
+            return (
+              <CommentItem
+                comment={comment}
+                users={dummyUsers}
+                id={comment.id}
+                key={comment.id}
+              />
+            )
+          })}
+        </div>
+        <CommentForm />
       </div>
-      <hr />
-      <div>
-        {response.comments.map(comment => {
-          return (
-            <CommentItem
-              comment={comment}
-              users={dummyUsers}
-              id={comment.id}
-              key={comment.id}
-            />
-          )
-        })}
-      </div>
-      <CommentForm />
-    </div>
+    </CommentAuthProvider>
   )
 }
 
