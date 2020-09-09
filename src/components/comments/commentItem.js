@@ -11,7 +11,7 @@ const CommentItem = ({ comment, users, id }) => {
   const { user, content, datetime, replies } = comment
   const currentUser = users.find(u => {
     return u.id === user
-  }) ?? {
+  }) || {
     name: "unknown",
     picture: "",
   }

@@ -70,7 +70,7 @@ exports.createPages = async ({ graphql, actions }) => {
   // Create blog posts pages.
   const posts = result.data.allMarkdownRemark.edges
 
-  let token = process.env.GATSBY_ACCESS_TOKEN ?? ""
+  let token = process.env.GATSBY_ACCESS_TOKEN || ""
   // Check is the token valid.
   await got
     .post(`${process.env.GATSBY_API_DOMAIN}/auth`, {

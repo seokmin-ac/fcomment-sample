@@ -93,7 +93,7 @@ const CommentAuthProvider = ({ children }) => {
 
   return (
     <CommentAuthContext.Provider
-      value={{ ...context, users: users ?? [], currentUser }}
+      value={{ ...context, users: users || [], currentUser }}
     >
       {children}
     </CommentAuthContext.Provider>
