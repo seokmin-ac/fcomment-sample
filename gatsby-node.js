@@ -18,10 +18,11 @@ const getToken = async () => {
       },
     }
   )
+  const { access_token } = JSON.parse(body)
   if (process.env.NODE_ENV === "development") {
-    console.log(`New Access token is assigned:\n${body.access_token}`)
+    console.log(`New Access token is assigned:\n${access_token}`)
   }
-  return body.access_token
+  return access_token
 }
 
 // Post an article.

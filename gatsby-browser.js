@@ -6,6 +6,8 @@ import { Auth0Provider } from "@auth0/auth0-react"
 import "typeface-montserrat"
 import "typeface-merriweather"
 
+import { CommentAuthProvider } from "./src/components/comments/commentAuthContext"
+
 import "prismjs/themes/prism.css"
 
 const onRedirectCallback = appState => navigate(appState?.returnTo || "/")
@@ -21,7 +23,7 @@ export const wrapRootElement = ({ element }) => {
       onRedirectCallback={onRedirectCallback}
       cacheLocation="localstorage"
     >
-      {element}
+      <CommentAuthProvider>{element}</CommentAuthProvider>
     </Auth0Provider>
   )
 }

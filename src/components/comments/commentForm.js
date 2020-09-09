@@ -3,22 +3,34 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { MdCancel } from "react-icons/md"
 
 import { useCommentAuth } from "./commentAuthContext"
+import { useComments } from "./comments"
 
 import "./commentForm.css"
 
-const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
+const CommentForm = ({
+  id,
+  cancelCallback,
+  exitForm = () => {},
+  content = "",
+  method = "POST",
+}) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0()
   const { token } = useCommentAuth()
   const [commentContent, setCommentContent] = useState(content)
   const textArea = useRef()
-  useEffect(_ => {
-    if (textArea.current) {
-      textArea.current.value = commentContent
-    }
-  })
+  useEffect(
+    _ => {
+      if (textArea.current) {
+        textArea.current.value = commentContent
+      }
+    },
+    [textArea, commentContent]
+  )
 
-  const fetchComment = _ => {
+  const { fetchComments } = useComments()
+
+  const postComment = _ => {
     if (commentContent === "") {
       return
     }
@@ -34,6 +46,13 @@ const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
       body: JSON.stringify({
         content: commentContent,
       }),
+    }).then(_ => {
+      fetchComments().then(_ => {
+        if (textArea.current?.value) {
+          textArea.current.value = ""
+        }
+        exitForm()
+      })
     })
   }
 
@@ -97,7 +116,7 @@ const CommentForm = ({ id, cancelCallback, content = "", method = "POST" }) => {
         className="post sans-serif"
         onClick={e => {
           e.preventDefault()
-          fetchComment()
+          postComment()
         }}
       >
         Post

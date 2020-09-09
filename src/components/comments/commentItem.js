@@ -5,6 +5,7 @@ import CommentForm from "./commentForm"
 import CommentContextButtons from "./commentContextButtons"
 
 import "./commentItem.css"
+import { useComments } from "./comments"
 
 const CommentItem = ({ comment, users, id }) => {
   const { user, content, datetime, replies } = comment
@@ -18,6 +19,8 @@ const CommentItem = ({ comment, users, id }) => {
   const [isEditing, setIsEditing] = useState(false)
   const { token } = useCommentAuth()
 
+  const { fetchComments } = useComments()
+
   const fetchDelete = _ => {
     return fetch(`${process.env.GATSBY_API_DOMAIN}/comments/${id}`, {
       method: "DELETE",
@@ -25,7 +28,7 @@ const CommentItem = ({ comment, users, id }) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-    })
+    }).then(fetchComments)
   }
 
   return (
@@ -37,6 +40,7 @@ const CommentItem = ({ comment, users, id }) => {
             cancelCallback={_ => setIsEditing(false)}
             method="PATCH"
             content={content}
+            exitForm={_ => setIsEditing(false)}
           />
         </>
       ) : (
@@ -51,7 +55,7 @@ const CommentItem = ({ comment, users, id }) => {
           <div className={`comment${comment.removed ? " removed" : ""}`}>
             <div className="header sans-serif">
               <span className="comment-user">
-                {comment.removed ? "" : currentUser.name}
+                {comment.removed ? "" : currentUser.nickname}
               </span>
               <time dateTime={datetime}>
                 {Intl.DateTimeFormat("en-US", {
@@ -79,7 +83,9 @@ const CommentItem = ({ comment, users, id }) => {
           </div>
         </div>
       )}
-      {showReplyForm && <CommentForm id={id} />}
+      {showReplyForm && (
+        <CommentForm id={id} exitForm={_ => setShowReplyForm(false)} />
+      )}
       <div className="replies">
         {replies?.map(comment => {
           return (

@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react"
+import React, {
+  useEffect,
+  useState,
+  createContext,
+  useCallback,
+  useContext,
+} from "react"
 
-import { CommentAuthProvider } from "./commentAuthContext"
+import { useCommentAuth } from "./commentAuthContext"
 import CommentForm from "./commentForm"
 import CommentItem from "./commentItem"
 import "./comments.css"
 
+const CommentContext = createContext({ fetchComments: _ => {} })
+
 const Comments = () => {
   const [response, setResponse] = useState({ count: 0, comments: [] })
-  useEffect(() => {
-    fetch(
+  const fetchComments = useCallback(async () => {
+    await fetch(
       `${process.env.GATSBY_API_DOMAIN}/articles${window.location.pathname}comments`,
       {
         method: "GET",
@@ -16,24 +24,18 @@ const Comments = () => {
     )
       .then(response => response.json())
       .then(body => setResponse(body))
-  }, [])
+  }, [setResponse])
 
-  const dummyUsers = [
-    {
-      id: "auth0|5f3e92f9fe4527006d9383bc",
-      name: "manager",
-      picture:
-        "https://s.gravatar.com/avatar/ad5c2c75bd08bbf326ace2a8addf1e05?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fma.png",
+  useEffect(
+    _ => {
+      fetchComments()
     },
-    {
-      id: "google-oauth2|106050262959037228016",
-      name: "Seokmin Hong",
-      picture:
-        "https://lh3.googleusercontent.com/a-/AOh14GjMf9yTMjCKqGatcK6jobRnE6MAltUX6TOgPVh6-A",
-    },
-  ]
+    [fetchComments]
+  )
+
+  const { users } = useCommentAuth()
   return (
-    <CommentAuthProvider>
+    <CommentContext.Provider value={{ fetchComments }}>
       <div className="comments">
         <div className="title sans-serif">
           {response.count} Comment{response.count !== 1 ? "s" : ""}
@@ -44,7 +46,7 @@ const Comments = () => {
             return (
               <CommentItem
                 comment={comment}
-                users={dummyUsers}
+                users={users}
                 id={comment.id}
                 key={comment.id}
               />
@@ -53,8 +55,11 @@ const Comments = () => {
         </div>
         <CommentForm />
       </div>
-    </CommentAuthProvider>
+    </CommentContext.Provider>
   )
 }
 
+const useComments = () => useContext(CommentContext)
+
 export default Comments
+export { useComments }
