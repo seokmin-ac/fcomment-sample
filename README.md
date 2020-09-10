@@ -16,7 +16,7 @@ npm install
 
 ## Prerequisites
 
-- [Auth0](https://auth0.com/) application and API
+- [Auth0](https://auth0.com/) SPA application and API
 - Deployed [fcomment](https://github.com/seokmin-ac/fcomment) project
 
 ## Local Development
