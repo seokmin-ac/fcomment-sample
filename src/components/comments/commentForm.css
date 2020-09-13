@@ -28,6 +28,10 @@
   height: 80px;
 }
 
+.comment-form .post:disabled {
+  background-color: #e8c37d;
+}
+
 .comment-form .cancel {
   float: right;
   margin: 0;

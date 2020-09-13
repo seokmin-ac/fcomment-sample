@@ -16,7 +16,7 @@ const CommentForm = ({
 }) => {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0()
-  const { token } = useCommentAuth()
+  const { token, permissions } = useCommentAuth()
   const [commentContent, setCommentContent] = useState(content)
   const textArea = useRef()
   useEffect(
@@ -66,6 +66,7 @@ const CommentForm = ({
   }
 
   const { nickname, picture } = user
+  const canPostComments = permissions.includes("post:comments")
 
   return (
     <form className="comment-form">
@@ -99,9 +100,14 @@ const CommentForm = ({
       </div>
       <div className="text-wrapper">
         <textarea
-          placeholder="Input your comment here"
+          placeholder={
+            canPostComments
+              ? "Input your comment here"
+              : "Only qualified user can write comments. Please wait for being accepted."
+          }
           onChange={e => setCommentContent(e.target.value)}
           ref={textArea}
+          disabled={!canPostComments}
         />
         {cancelCallback && (
           <button
@@ -118,6 +124,7 @@ const CommentForm = ({
           e.preventDefault()
           postComment()
         }}
+        disabled={!canPostComments}
       >
         Post
       </button>
