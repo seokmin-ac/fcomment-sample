@@ -1,19 +1,28 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import Clipboard from "react-clipboard.js"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import { useCommentAuth } from "../components/comments/commentAuthContext"
 import { rhythm } from "../utils/typography"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMarkdownRemark.edges
+  const { token } = useCommentAuth()
 
   return (
     <Layout location={location} title={siteTitle}>
       <SEO title="All posts" />
       <Bio />
+      {token && (
+        <div>
+          Click to copy your JWT into clipboard.
+          <Clipboard data-clipboard-text={token}>copy</Clipboard>
+        </div>
+      )}
       {posts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug
         return (
